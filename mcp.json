@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "usagegate": {
+      "command": "npx",
+      "args": ["-y", "github:usagegate-io/cursor-skill", "usagegate-mcp"],
+      "env": {
+        "USAGEGATE_KEY": "${USAGEGATE_KEY}",
+        "USAGEGATE_API_BASE_URL": "${USAGEGATE_API_BASE_URL}"
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "usagegate",
+  "displayName": "UsageGate",
+  "version": "0.2.0",
+  "description": "Wire UsageGate for usage limits, AI credits, and Stripe entitlements in Next.js — the missing piece beside Supabase and Stripe when building a SaaS.",
+  "author": {
+    "name": "UsageGate",
+    "email": "hello@usagegate.io"
+  },
+  "homepage": "https://www.usagegate.io",
+  "repository": "https://github.com/usagegate-io/cursor-skill",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "keywords": [
+    "usage-limits",
+    "ai-credits",
+    "stripe",
+    "supabase",
+    "saas",
+    "entitlements",
+    "feature-gating",
+    "nextjs",
+    "metering",
+    "mcp"
+  ],
+  "skills": "skills/",
+  "mcpServers": "mcp.json",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "USAGEGATE_KEY": {
+        "type": "string",
+        "title": "UsageGate API key",
+        "description": "Workspace key from https://www.usagegate.io/dashboard/keys (gk_live_…)"
+      },
+      "USAGEGATE_API_BASE_URL": {
+        "type": "string",
+        "title": "API base URL",
+        "description": "Defaults to https://www.usagegate.io",
+        "default": "https://www.usagegate.io"
+      }
+    },
+    "required": ["USAGEGATE_KEY"]
+  }
+}

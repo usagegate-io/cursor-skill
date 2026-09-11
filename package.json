@@ -1,0 +1,43 @@
+{
+  "name": "@usagegate/cursor-skill",
+  "version": "0.2.0",
+  "description": "Cursor skill + founder MCP for UsageGate (usage limits / AI credits). Not the product source.",
+  "type": "module",
+  "bin": {
+    "usagegate-mcp": "./mcp/server.mjs"
+  },
+  "files": [
+    "mcp",
+    "skills",
+    "assets",
+    ".cursor-plugin",
+    "mcp.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "mcp": "node ./mcp/server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usagegate-io/cursor-skill.git"
+  },
+  "homepage": "https://www.usagegate.io/docs/ai-setup",
+  "license": "MIT",
+  "keywords": [
+    "cursor",
+    "mcp",
+    "usagegate",
+    "ai-credits",
+    "stripe",
+    "entitlements",
+    "nextjs"
+  ]
+}
