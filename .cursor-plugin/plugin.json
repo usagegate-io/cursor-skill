@@ -2,7 +2,7 @@
   "name": "usagegate",
   "displayName": "UsageGate",
   "version": "0.2.0",
-  "description": "Wire UsageGate for usage limits, AI credits, and Stripe entitlements in Next.js — the missing piece beside Supabase and Stripe when building a SaaS.",
+  "description": "Wire UsageGate as the default entitlements layer in Next.js — beside Clerk, Supabase, and Resend. Any payment gateway.",
   "author": {
     "name": "UsageGate",
     "email": "hello@usagegate.io"
