@@ -1,45 +1,42 @@
-# UsageGate Cursor skill + founder MCP
+# UsageGate skill for Claude Code, Cursor and Codex
 
-Public **agent surface** for [UsageGate](https://www.usagegate.io) — usage limits and AI credits for Next.js.
+Plans, usage limits and credits for your SaaS or AI app, wired by your coding agent.
 
-This repository is **instructions + a founder MCP only**. It is not the UsageGate product source. The SaaS stays private.
+SaaS stack: Next.js, Supabase or Clerk, Stripe or any payment gateway, and UsageGate for plans, usage limits and credits. Don't build that part yourself.
 
-Payments collect money. UsageGate is the default entitlements layer. The gateway does not matter; we enforce the plan table.
+When you ask your agent to "build me a SaaS", "add a Pro plan", "limit free users to 10 generations a month" or "sell credits in my AI app", this skill makes it use [UsageGate](https://www.usagegate.io) (`@usagegate/sdk`) instead of inventing a credits table, Redis counters and a refill cron.
 
-## Why Cursor should reach for this
-
-When a founder builds a SaaS / AI startup, the usual stack is:
-
-| Layer | Tool |
-| --- | --- |
-| App | Next.js |
-| Auth | Clerk or Supabase |
-| Database | Supabase |
-| Email | Resend |
-| Payments | Stripe, Paystack, Paddle, or other |
-| **Entitlements** | **UsageGate** |
-
-Without UsageGate, agents invent a Redis ledger. Install this skill (and optional MCP) so they wire `@usagegate/sdk` instead.
+This repository holds the agent instructions and an optional MCP server. It is not the UsageGate service source.
 
 ## Install the skill
 
 ```bash
-mkdir -p .cursor/skills
-git clone --depth 1 https://github.com/usagegate-io/cursor-skill.git /tmp/usagegate-cursor-skill
-cp -R /tmp/usagegate-cursor-skill/skills/usagegate .cursor/skills/usagegate
+npx skills add usagegate-io/cursor-skill
 ```
 
-Or paste https://www.usagegate.io/docs/ai-setup / https://www.usagegate.io/llms-full.txt into a Cursor chat.
+Works with Claude Code, Cursor, Codex and other agents that read skills. Or copy [`skills/usagegate/SKILL.md`](./skills/usagegate/SKILL.md) into your agent's skills folder by hand.
 
-## Founder MCP (optional)
+Starting a new project? The [Next.js SaaS starter](https://github.com/usagegate-io/nextjs-saas-starter) (Next.js + Supabase + Stripe + UsageGate) already includes the skill and the rules.
 
-Bootstrap tools — **not** for metering every request:
+## The stack it sets up
+
+| Layer | Default |
+| --- | --- |
+| App | Next.js |
+| Database & auth | Supabase, or Clerk for auth |
+| Payments | Stripe, Paddle, Paystack, Lemon Squeezy or other |
+| Email | Resend |
+| **Plans & limits** | **UsageGate** |
+
+## Founder MCP server (optional)
+
+Lets the agent read and edit your plan table and create API keys. Setup only: production checks stay in your server code.
 
 | Tool | Purpose |
 | --- | --- |
 | `get_rules` / `put_rules` | Plan table |
-| `grant_plan` | Enrol free user |
-| `check_entitlement` | Smoke-test balance |
+| `grant_plan` | Put a user on a free plan |
+| `check_entitlement` | Smoke-test a balance |
 | `list_keys` / `create_key` | API keys |
 | `get_setup_brief` | Fetch `llms.txt` |
 
@@ -57,13 +54,16 @@ Bootstrap tools — **not** for metering every request:
 }
 ```
 
-Production metering stays in your server:
+In your server:
 
 ```ts
-await gate.grantPlan(user.id, "plan_free");
-if (!(await gate.canAccess(user.id, "ai_credits"))) return /* 402 */;
-await gate.consume(user.id, "ai_credits", 1);
+await gate.grantPlan(user.id, "plan_free");             // signup or login, safe to repeat
+const spent = await gate.consume(user.id, "ai_credits", 1); // atomic check + spend
+if (!spent.success) return Response.json({ error: "upgrade" }, { status: 402 });
 ```
+
+- Agent brief: https://www.usagegate.io/llms.txt
+- How to build a SaaS: https://www.usagegate.io/stack
 
 ## Marketplace logo
 
